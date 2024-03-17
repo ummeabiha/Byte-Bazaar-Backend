@@ -1,13 +1,14 @@
 const router = require("express").Router();
-const { user_model } = require("../models/userSchema");
+const { user_model } = require("../models/UserInfo");
 const bcrypt = require("bcrypt");
 const Joi = require("joi"); // library for data validation
 
 module.exports = router.post("/", async (req, res) => {
   try {
+    console.log("Received data:", req.body);
     const { error } = validate(req.body);
 
-    // if there is an error in input data, then generate a message
+    // to handle errors in input data
     if (error)
       return res.status(400).send({ message: error.details[0].message });
 
@@ -39,10 +40,8 @@ module.exports = router.post("/", async (req, res) => {
 // function to validate the input data
 const validate = (data) => {
   const schema = Joi.object({
-    email: Joi.string().email().required().label("Email"),
-    password: Joi.string().required().label("Password"),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
   });
   return schema.validate(data);
 };
-
-// module.exports = router;

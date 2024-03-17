@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config(); // Load environment variables from .env file
 const db= process.env.DATABASE;
 
 async function connectToDatabase() {
@@ -14,4 +15,5 @@ async function connectToDatabase() {
 }
 
 connectToDatabase();
+
 
