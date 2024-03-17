@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const { user_model } = require("../models/UserInfo");
+const { user_model } = require("../models/userInfo");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+
 const passwordComplexity = require("joi-password-complexity");
 
 module.exports = router.post("/", async (req, res) => {
