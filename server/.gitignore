@@ -1,4 +1,2 @@
 node_modules
 .env
-index.js
-googleAuth.js
