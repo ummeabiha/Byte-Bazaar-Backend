@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { user_model } = require("../models/userInfo");
 const bcrypt = require("bcrypt");
 const Joi = require("joi"); // library for data validation
 

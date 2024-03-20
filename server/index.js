@@ -4,11 +4,15 @@ require("./database/connection");
 // Importing route handlers
 const signupRoutes = require("./routes/signup");
 const loginRoutes = require("./routes/login");
+const forgotPasswordRoutes= require("./routes/forgotPassword");
+const resetPasswordRoutes= require("./routes/resetPassword");
+const emailRouter = require("./routes/sendEmail");
 
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = 6005;
+// const PORT = process.env.PORT || 8080;
 const secretKey= process.env.SECRET_KEY
 
 const session = require("express-session");
@@ -65,6 +69,11 @@ app.get("/login/success", async (req, res) => {
   }
 });
 
+// app.use("/api/email", emailRouter);
+// Forget and Reset Password
+app.use("/api/forgotPassword", forgotPasswordRoutes);
+app.use("/api/resetPassword", resetPasswordRoutes);
+
 //Logout the user
 app.get("/logout", (req, res, next) => {
   req.logout(function (err) {
@@ -78,3 +87,7 @@ app.get("/logout", (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
+
+
+
+
