@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const { user_model } = require("../models/userInfo");
+const { user_model } = require("../../models/userInfo");
 const bcrypt = require("bcrypt");
-const Joi = require("joi"); // library for data validation
+const { validate } = require("../../validations/loginValidation");
+// const Joi = require("joi"); // library for data validation
 
 module.exports = router.post("/", async (req, res) => {
   try {
@@ -16,8 +17,9 @@ module.exports = router.post("/", async (req, res) => {
     const user = await user_model.findOne({ email: req.body.email });
 
     // if user is not authenticated, then generate an error message
-    if (!user)
+    if (!user || user.isActiveUser == false) {
       return res.status(401).send({ message: "Invalid Email or Password" });
+    }
 
     // if user email is authenticated, then validate the password
     const validPassword = await bcrypt.compare(
@@ -37,11 +39,11 @@ module.exports = router.post("/", async (req, res) => {
   }
 });
 
-// function to validate the input data
-const validate = (data) => {
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  });
-  return schema.validate(data);
-};
+// // function to validate the input data
+// const validate = (data) => {
+//   const schema = Joi.object({
+//     email: Joi.string().email().required(),
+//     password: Joi.string().required(),
+//   });
+//   return schema.validate(data);
+// };

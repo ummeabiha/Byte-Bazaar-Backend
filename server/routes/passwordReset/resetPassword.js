@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const { user_model } = require("../models/userInfo");
+const { user_model } = require("../../models/userInfo");
 const bcrypt = require("bcrypt");
-const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const passwordComplexity = require("joi-password-complexity");
+const { validate } = require("../../validations/resetPasswordValidation");
 
 module.exports = router.post("/", async (req, res) => {
   try {
@@ -40,11 +38,11 @@ module.exports = router.post("/", async (req, res) => {
   }
 });
 
-const validate = (data) => {
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-    password: passwordComplexity().required(),
-    confirmPassword: passwordComplexity().required(),
-  });
-  return schema.validate(data);
-};
+// const validate = (data) => {
+//   const schema = Joi.object({
+//     email: Joi.string().email().required(),
+//     password: passwordComplexity().required(),
+//     confirmPassword: passwordComplexity().required(),
+//   });
+//   return schema.validate(data);
+// };
