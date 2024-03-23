@@ -10,7 +10,7 @@ module.exports = router.post("/", async (req, res) => {
 
     if (error) {
       console.log("Received error in data");
-      return res.status(400).send({ message: "Invalid Data in Fields" });
+      return res.status(400).send({ message: error.details[0].message });
     }
 
     // Find the user by email
