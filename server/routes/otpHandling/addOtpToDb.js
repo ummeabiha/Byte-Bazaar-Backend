@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
-const {userOTPVerification_model} = require("../../models/userOTPVerification");
+const {
+  userOTPVerification_model,
+} = require("../../models/userOTPVerification");
 const { sendOTPEmail } = require("./sendOtpEmail");
 
 const addOtpToDb = async ({ recipientEmail }) => {
@@ -27,7 +29,6 @@ const addOtpToDb = async ({ recipientEmail }) => {
     // Send OTP email using sendOTPEmail function
     await sendOTPEmail({ recipientEmail, otp });
     return { message: "OTP email sent successfully" };
-    
   } catch (error) {
     console.error("Error sending OTP email:", error);
     throw new Error("An error occurred while sending the OTP email");
@@ -35,4 +36,3 @@ const addOtpToDb = async ({ recipientEmail }) => {
 };
 
 module.exports = { addOtpToDb };
-

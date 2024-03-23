@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
     if (!recipientEmail) {
       return res.status(404).send("An Errror Occured, Email Not Found");
     }
-    
+
     await addOtpToDb({ recipientEmail });
     return res.send({ message: "OTP Resent successfully" });
   } catch (error) {
