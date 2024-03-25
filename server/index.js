@@ -4,8 +4,11 @@ require("./database/connection");
 // Importing route handlers
 const signupRoutes = require("./routes/signup");
 const loginRoutes = require("./routes/login");
+const shopRoutes=require("./routes/products")
 
 const express = require("express");
+
+
 const app = express();
 const cors = require("cors");
 const PORT = 6005;
@@ -53,6 +56,7 @@ app.use(passport.session());
 // General Login and Signup
 app.use("/api/signup", signupRoutes);
 app.use("/api/login", loginRoutes);
+app.use('/api', shopRoutes);
 
 // Google Login
 app.get("/auth/google", authenticateGoogle());
