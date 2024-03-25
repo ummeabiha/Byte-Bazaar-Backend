@@ -1,6 +1,6 @@
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
-const userdb = require("../models/googleUser");
+const userdb = require("../../models/googleUser");
 require("dotenv").config();
 
 // Google OAuth2 credentials

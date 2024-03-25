@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const { user_model } = require("../models/userInfo");
+const { user_model } = require("../../models/userInfo");
 const bcrypt = require("bcrypt");
-const Joi = require("joi");
-
-const passwordComplexity = require("joi-password-complexity");
+const { validate } = require("../../validations/signupValidation");
 
 module.exports = router.post("/", async (req, res) => {
   try {
@@ -22,7 +20,7 @@ module.exports = router.post("/", async (req, res) => {
 
     // Check if the user email already exists in db
     const user = await user_model.findOne({ email: req.body.email });
-    if (user)
+    if (user && user.isActiveUser == true)
       return res
         .status(409)
         .send({ message: "User with given email already exists" });
@@ -32,21 +30,28 @@ module.exports = router.post("/", async (req, res) => {
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
     // If all checks were successful, then add the user to the db
-    await new user_model({ ...req.body, password: hashPassword }).save();
-    res.status(201).send({ message: "User created successfully" });
+    if (user) {
+      if (user.isActiveUser === false) {
+        await user_model.findOneAndUpdate(
+          { email: req.body.email },
+          { $set: { password: hashPassword, isActiveUser: true } }
+        );
+        return res.status(200).send({ message: "User created successfully" });
+      } else {
+        return res.status(409).send({
+          message: "User with given email already exists and is active",
+        });
+      }
+    } else {
+      // Create a new user if no user with the given email exists
+      await new user_model({
+        ...req.body,
+        password: hashPassword,
+        isActiveUser: true,
+      }).save();
+      return res.status(201).send({ message: "User created successfully" });
+    }
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
-
-// function to validate the input data
-const validate = (data) => {
-  const schema = Joi.object({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: passwordComplexity().required(),
-    confirmPassword: passwordComplexity().required(),
-  });
-  return schema.validate(data);
-};

@@ -21,8 +21,11 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.2",
+    "nodemailer": "^6.9.12",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
-    "passport-google-oauth2": "^0.2.0"
+    "passport-google-oauth2": "^0.2.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }

@@ -7,6 +7,7 @@ const userInfo = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  isActiveUser: { type: Boolean, required: true},
 }, { collection: "userInfo" });
 
 // generating a unique auth token for each user
