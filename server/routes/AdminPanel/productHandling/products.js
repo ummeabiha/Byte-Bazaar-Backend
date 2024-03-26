@@ -1,5 +1,5 @@
 const express = require('express');
-const { shop_model } = require('../models/shop');
+const { shop_model } = require('../../../models/UserPanel/shop');
 
 const router = express.Router();
 

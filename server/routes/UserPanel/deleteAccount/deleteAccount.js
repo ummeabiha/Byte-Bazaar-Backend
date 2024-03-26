@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { user_model } = require("../../models/userInfo");
+const { user_model } = require("../../../models/UserPanel/userInfo");
 
-module.exports = router.post("/", async (req, res) => {
+module.exports = router.delete("/", async (req, res) => {
   try {
     const { userEmail, deleteAccount } = req.body;
 
