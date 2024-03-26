@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 //Schema for User Info, to be stored in the database
-const userInfo = new mongoose.Schema(
+const adminInfo = new mongoose.Schema(
   {
     email: { type: String, required: true },
     password: { type: String, required: true },
@@ -12,7 +12,7 @@ const userInfo = new mongoose.Schema(
 );
 
 // generating a unique auth token for each admin
-userInfo.methods.generateAuthToken = function () {
+adminInfo.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
     expiresIn: "7d",
   });
