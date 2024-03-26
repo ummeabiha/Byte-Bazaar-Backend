@@ -10,6 +10,8 @@ const verifyOtpRouter = require("./routes/UserPanel/otpHandling/verifyOtp");
 const resendOtpRouter = require("./routes/UserPanel/otpHandling/resendOtp");
 
 const express = require("express");
+
+
 const app = express();
 const cors = require("cors");
 const PORT = 6005;
@@ -57,6 +59,7 @@ app.use(passport.session());
 // General Login and Signup
 app.use("/api/signup", signupRoutes);
 app.use("/api/login", loginRoutes);
+app.use('/api', shopRoutes);
 
 // Google Login
 app.get("/auth/google", authenticateGoogle());
