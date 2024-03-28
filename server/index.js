@@ -25,7 +25,7 @@ const {
   authenticateGoogle,
   handleGoogleCallback,
 } = require("./routes/UserPanel/userAuthorization/googleAuth");
-const cartRouter = require("./routes/cartRoutes/CartRouter");
+const cartRouter = require("./routes/UserPanel/cartRoutes/CartRouter");
 const cookieParser = require("cookie-parser");
 
 // Initialize Passport and session

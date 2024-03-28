@@ -1,6 +1,6 @@
 const cartRouter = require("express").Router();
-const Authorization = require("../../middleware/authorization");
-const { Cart, CartItem } = require("../../models/Cart");
+const Authorization = require("../../../middleware/authorization");
+const { Cart, CartItem } = require("../../../models/UserPanel/Cart");
 const { Types } = require("mongoose");
 
 const findCart = async (userId) => {
