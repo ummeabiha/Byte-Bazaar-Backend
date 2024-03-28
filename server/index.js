@@ -9,6 +9,8 @@ const resetPasswordRoutes = require("./routes/UserPanel/passwordReset/resetPassw
 const verifyOtpRouter = require("./routes/UserPanel/otpHandling/verifyOtp");
 const resendOtpRouter = require("./routes/UserPanel/otpHandling/resendOtp");
 const adminLoginRouter = require("./routes/AdminPanel/adminLogin/adminLogin");
+const selectUsersRouter = require("./routes/UserPanel/selectUsers/selectUsers");
+const deleteUserRouter = require("./routes/UserPanel/deleteAccount/deleteAccount");
 // const shopRoutes = require("./routes/UserPanel/shopRoutes");
 
 const express = require("express");
@@ -79,6 +81,8 @@ app.use("/api/forgotPassword", forgotPasswordRoutes);
 app.use("/api/resetPassword", resetPasswordRoutes);
 app.use("/api/user-otp-verification", verifyOtpRouter);
 app.use("/api/resend-otp", resendOtpRouter);
+app.use("/api/select-users", selectUsersRouter);
+app.use("/api/delete-users", deleteUserRouter);
 
 //Logout the user
 app.get("/logout", (req, res, next) => {
