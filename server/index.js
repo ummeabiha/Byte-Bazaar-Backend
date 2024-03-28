@@ -13,7 +13,6 @@ const shopRoutes = require("./routes/AdminPanel/productHandling/products");
 
 const express = require("express");
 
-
 const app = express();
 const cors = require("cors");
 const PORT = 6005;
@@ -26,6 +25,8 @@ const {
   authenticateGoogle,
   handleGoogleCallback,
 } = require("./routes/UserPanel/userAuthorization/googleAuth");
+const cartRouter = require("./routes/UserPanel/cartRoutes/CartRouter");
+const cookieParser = require("cookie-parser");
 
 // Initialize Passport and session
 initializePassport();
@@ -46,6 +47,7 @@ const corsOptions = {
 // Use cors middleware with options
 app.use(cors(corsOptions));
 
+app.use(cookieParser());
 // Secret key for hashing the user data
 app.use(
   session({
@@ -80,6 +82,10 @@ app.use("/api/resetPassword", resetPasswordRoutes);
 app.use("/api/user-otp-verification", verifyOtpRouter);
 app.use("/api/resend-otp", resendOtpRouter);
 
+//Cart Routes
+
+app.use("/cart", cartRouter);
+
 //Logout the user
 app.get("/logout", (req, res, next) => {
   req.logout(function (err) {
@@ -89,7 +95,6 @@ app.get("/logout", (req, res, next) => {
     res.redirect("http://localhost:5173/bytebazaar/login");
   });
 });
-
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
