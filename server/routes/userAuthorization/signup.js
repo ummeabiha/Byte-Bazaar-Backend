@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { user_model } = require("../../models/userInfo");
 const bcrypt = require("bcrypt");
 const { validate } = require("../../validations/signupValidation");
+const { userCarts } = require("../../models/Cart");
 
 module.exports = router.post("/", async (req, res) => {
   try {
