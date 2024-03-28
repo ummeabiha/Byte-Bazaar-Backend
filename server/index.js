@@ -2,15 +2,14 @@ require("dotenv").config();
 require("./database/connection");
 
 // Importing route handlers
-{/*const signupRoutes = require("./routes/signup");
-const loginRoutes = require("./routes/login");*/}
-const shopRoutes=require("./routes/products")
-const signupRoutes = require("./routes/userAuthorization/signup");
-const loginRoutes = require("./routes/userAuthorization/login");
-const forgotPasswordRoutes = require("./routes/passwordReset/forgotPassword");
-const resetPasswordRoutes = require("./routes/passwordReset/resetPassword");
-const verifyOtpRouter = require("./routes/otpHandling/verifyOtp");
-const resendOtpRouter = require("./routes/otpHandling/resendOtp");
+const signupRoutes = require("./routes/UserPanel/userAuthorization/signup");
+const loginRoutes = require("./routes/UserPanel/userAuthorization/login");
+const forgotPasswordRoutes = require("./routes/UserPanel/passwordReset/forgotPassword");
+const resetPasswordRoutes = require("./routes/UserPanel/passwordReset/resetPassword");
+const verifyOtpRouter = require("./routes/UserPanel/otpHandling/verifyOtp");
+const resendOtpRouter = require("./routes/UserPanel/otpHandling/resendOtp");
+const adminLoginRouter = require("./routes/AdminPanel/adminLogin/adminLogin");
+// const shopRoutes = require("./routes/UserPanel/shopRoutes");
 
 const express = require("express");
 
@@ -26,7 +25,7 @@ const {
   initializePassport,
   authenticateGoogle,
   handleGoogleCallback,
-} = require("./routes/userAuthorization/googleAuth");
+} = require("./routes/UserPanel/userAuthorization/googleAuth");
 
 // Initialize Passport and session
 initializePassport();
@@ -62,7 +61,8 @@ app.use(passport.session());
 // General Login and Signup
 app.use("/api/signup", signupRoutes);
 app.use("/api/login", loginRoutes);
-app.use('/api', shopRoutes);
+app.use("/api/admin-login", adminLoginRouter);
+// app.use('/api', shopRoutes);
 
 // Google Login
 app.get("/auth/google", authenticateGoogle());

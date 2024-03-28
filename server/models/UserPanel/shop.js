@@ -8,8 +8,8 @@ const shopSchema = new mongoose.Schema({
   category: String,
   brand: String,
   rating: Number,
-  description: String
+  description: String,
 });
 
-const shop_model = mongoose.model("shop", shopSchema);
+const shop_model = mongoose.model("shops", shopSchema);
 module.exports = { shop_model };

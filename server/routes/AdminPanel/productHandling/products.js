@@ -1,5 +1,5 @@
 const express = require('express');
-const { shop_model } = require('../models/shop');
+const { shop_model } = require('../../../models/UserPanel/shop');
 
 const router = express.Router();
 
@@ -12,22 +12,6 @@ router.get('/products', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Get a single product by ID
-router.get('/products/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const product = await shop_model.findOne({ _id: id });
-    if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-    res.status(200).json(product);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-
 
 // Create a new product
 router.post('/products', async (req, res) => {

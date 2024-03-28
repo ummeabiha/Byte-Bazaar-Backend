@@ -1,5 +1,5 @@
 const express = require("express");
-const { user_model } = require("../../models/userInfo");
+const { user_model } = require("../../../models/UserPanel/userInfo");
 const { addOtpToDb } = require("../otpHandling/addOtpToDb");
 const router = express.Router();
 

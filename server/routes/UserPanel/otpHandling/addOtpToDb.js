@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const {
   userOTPVerification_model,
-} = require("../../models/userOTPVerification");
+} = require("../../../models/UserPanel/userOTPVerification");
 const { sendOTPEmail } = require("./sendOtpEmail");
 
 const addOtpToDb = async ({ recipientEmail }) => {

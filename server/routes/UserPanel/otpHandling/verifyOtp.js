@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const {
   userOTPVerification_model,
-} = require("../../models/userOTPVerification");
+} = require("../../../models/UserPanel/userOTPVerification");
 
 // Verify OTP
 module.exports = router.post("/", async (req, res) => {
