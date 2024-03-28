@@ -9,7 +9,7 @@ const resetPasswordRoutes = require("./routes/UserPanel/passwordReset/resetPassw
 const verifyOtpRouter = require("./routes/UserPanel/otpHandling/verifyOtp");
 const resendOtpRouter = require("./routes/UserPanel/otpHandling/resendOtp");
 const adminLoginRouter = require("./routes/AdminPanel/adminLogin/adminLogin");
-// const shopRoutes = require("./routes/UserPanel/shopRoutes");
+const shopRoutes = require("./routes/AdminPanel/productHandling/products");
 
 const express = require("express");
 
@@ -62,7 +62,7 @@ app.use(passport.session());
 app.use("/api/signup", signupRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/admin-login", adminLoginRouter);
-// app.use('/api', shopRoutes);
+app.use('/api', shopRoutes);
 
 // Google Login
 app.get("/auth/google", authenticateGoogle());
