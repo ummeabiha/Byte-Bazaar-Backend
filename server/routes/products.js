@@ -56,7 +56,7 @@ router.put('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const updatedProduct = await shop_model.findOneAndUpdate(
-      { id: id },
+      { _id: id },
       req.body,
       { new: true }
     );
@@ -70,7 +70,7 @@ router.patch('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const updatedProduct = await shop_model.findOneAndUpdate(
-      { id: id },
+      { _id: id },
       { $set: req.body }, 
       { new: true }
     );
@@ -90,4 +90,4 @@ router.delete('/products/delete/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+
