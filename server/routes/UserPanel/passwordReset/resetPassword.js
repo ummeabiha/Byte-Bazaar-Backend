@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { user_model } = require("../../models/userInfo");
+const { user_model } = require("../../../models/UserPanel/userInfo");
 const bcrypt = require("bcrypt");
-const { validate } = require("../../validations/resetPasswordValidation");
+const { validate } = require("../../../validations/resetPasswordValidation");
 
 module.exports = router.post("/", async (req, res) => {
   try {
@@ -37,5 +37,3 @@ module.exports = router.post("/", async (req, res) => {
     console.error("Error resetting password:", error);
   }
 });
-
-

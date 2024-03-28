@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const { user_model } = require("../../models/userInfo");
+const { user_model } = require("../../../models/UserPanel/userInfo");
 const bcrypt = require("bcrypt");
-const { validate } = require("../../validations/signupValidation");
-const { userCarts } = require("../../models/Cart");
+const { validate } = require("../../../validations/signupValidation");
 
 module.exports = router.post("/", async (req, res) => {
   try {

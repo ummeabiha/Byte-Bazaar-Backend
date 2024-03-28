@@ -38,9 +38,7 @@ const addItem = async (req, res) => {
         quantity: quantity,
       });
       cart.items.push(newItem);
-    } 
-    
-    else {
+    } else {
       itemInCart.quantity += quantity;
     }
     await cart.save();
