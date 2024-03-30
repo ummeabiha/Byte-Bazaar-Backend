@@ -4,6 +4,7 @@ const shopSchema = new mongoose.Schema({
   id: Number,
   name: String,
   price: Number,
+  quantity: Number,
   image: String,
   category: String,
   brand: String,
