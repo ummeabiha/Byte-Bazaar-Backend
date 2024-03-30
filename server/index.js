@@ -21,6 +21,8 @@ const addProdsRouter = require("./routes/AdminPanel/inventoryManagement/insertPr
 const editProdsRouter = require("./routes/AdminPanel/inventoryManagement/updateProducts");
 const getProdsRouter = require("./routes/AdminPanel/inventoryManagement/getProducts");
 const deleteProdsRouter = require("./routes/AdminPanel/inventoryManagement/deleteProducts");
+const dispatchOrdersRouter= require("./routes/AdminPanel/orderManagement/dispatchOrders");
+const getOrdersRouter= require("./routes/AdminPanel/orderManagement/getOrders");
 
 // Variables
 const cookieParser = require("cookie-parser");
@@ -33,6 +35,8 @@ const {
   authenticateGoogle,
   handleGoogleCallback,
 } = require("./routes/UserPanel/userAuthorization/googleAuth");
+const getCustomerMessages = require("./routes/AdminPanel/customerSupport/getCustomerMessages");
+const closeCustomerConcerns = require("./routes/AdminPanel/customerSupport/closeCustomerConcerns");
 
 // Initialize Passport and session
 initializePassport();
@@ -101,6 +105,14 @@ app.use("/api/add-prods", addProdsRouter);
 app.use("/api/edit-prods", editProdsRouter);
 app.use("/api/get-prods", getProdsRouter);
 app.use("/api/delete-prods", deleteProdsRouter);
+
+//Order Management Routers for Admin Panel
+app.use("/api/dispatch-orders", dispatchOrdersRouter); 
+app.use("/api/get-orders", getOrdersRouter);
+
+// Customer Support for Admin Panel
+app.use("/api/close-concerns", closeCustomerConcerns); 
+app.use("/api/get-concerns", getCustomerMessages);
 
 //Logout the user
 app.get("/logout", (req, res, next) => {
