@@ -15,12 +15,12 @@ const resendOtpRouter = require("./routes/UserPanel/otpHandling/resendOtp");
 const adminLoginRouter = require("./routes/AdminPanel/adminLogin/adminLogin");
 const shopRoutes = require("./routes/AdminPanel/inventoryManagement/products");
 const cartRouter = require("./routes/UserPanel/cartRoutes/CartRouter");
-const getUserRouter= require("./routes/AdminPanel/userManagement/getUsers");
+const getUserRouter = require("./routes/AdminPanel/userManagement/getUsers");
 const deleteUserRouter = require("./routes/UserPanel/deleteAccount/deleteAccount");
-const addProdsRouter= require("./routes/AdminPanel/inventoryManagement/insertProducts");
-const editProdsRouter= require("./routes/AdminPanel/inventoryManagement/updateProducts");
-const getProdsRouter= require("./routes/AdminPanel/inventoryManagement/getProducts");
-const deleteProdsRouter= require("./routes/AdminPanel/inventoryManagement/deleteProducts");
+const addProdsRouter = require("./routes/AdminPanel/inventoryManagement/insertProducts");
+const editProdsRouter = require("./routes/AdminPanel/inventoryManagement/updateProducts");
+const getProdsRouter = require("./routes/AdminPanel/inventoryManagement/getProducts");
+const deleteProdsRouter = require("./routes/AdminPanel/inventoryManagement/deleteProducts");
 
 // Variables
 const cookieParser = require("cookie-parser");
