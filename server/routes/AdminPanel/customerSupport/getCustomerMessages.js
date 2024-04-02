@@ -6,7 +6,7 @@ module.exports = router.get("/", async (req, res) => {
     // Query to fetch all users from the database
     const users = await support_model.find();
 
-    // Check if there are users in the database
+    // Check if there are user records in the database
     if (!users || users.length === 0) {
       return res.status(404).send({ message: "No Customer Queries" });
     }
