@@ -22,4 +22,5 @@ const CartInfo = new mongoose.Schema({
 
 const CartItem = mongoose.model("CartItem", cartItem);
 const Cart = mongoose.model("Cart", CartInfo);
-module.exports = { Cart, CartItem };
+//CartItem is the model and cartItem is the schema which is used by other modules to define array of this schema.
+module.exports = { Cart, CartItem, cartItem };
