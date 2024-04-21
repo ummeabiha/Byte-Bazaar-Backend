@@ -1,31 +1,59 @@
 const express = require("express");
 const router = express.Router();
 const { shop_model } = require("../../../models/UserPanel/shop");
-const { validate } = require("../../../validations/prodValidation");
+const { validate } = require("../../../validations/addProdValidation");
+const fs = require("fs");
+const path = require("path");
 
-// Create a new product
+// Decoding Base64 data into binary format
+const saveFileFromBase64 = (base64Data, targetPath) => {
+  const fileBuffer = Buffer.from(base64Data, "base64");
+  fs.writeFileSync(targetPath, fileBuffer);
+};
+
 module.exports = router.post("/", async (req, res) => {
   try {
-    console.log("Received data:", req.body);
-    const { error } = validate(req.body);
-    // to handle errors in input data
-    if (error)
-      return res.status(400).send({ message: error.details[0].message });
+    console.log("Adding data to db");
 
-    const newProduct = new shop_model(req.body);
+    const { error } = validate(req.body);
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
+
+    const { image, id, ...productData } = req.body;
+
+    const existingProduct = await shop_model.findOne({ id });
+    if (existingProduct) {
+      return res.status(400).send({ message: "Product Id already exists." });
+    }
+
+    const imageFolderPath = path.join(__dirname, "../../../uploads/products");
+    const imageName = `${id}.png`;
+    const imagePath = path.join(imageFolderPath, imageName);
+    saveFileFromBase64(image, imagePath);
+
+    const productWithImage = {
+      id: id,
+      ...productData,
+      image: `/uploads/products/${imageName}`,
+    };
+
+    const newProduct = new shop_model(productWithImage);
     await newProduct.save();
-    res.status(201).json({ message: "Product Added Successfully" });
+
+    res.status(201).json({
+      message: "Product Added Successfully",
+      imageUrl: productWithImage.image,
+    });
   } catch (err) {
-    // Handle validation errors and other unexpected errors
     console.error("Error creating product:", err);
 
-    // Check for validation errors (e.g., duplicate key error)
     if (err.name === "ValidationError" || err.code === 11000) {
       return res
         .status(400)
-        .json({ message: "Validation Error: Duplicate key or invalid data." });
+        .send({ message: "Validation Error: Duplicate key or invalid data." });
     }
 
-    res.status(500).json({ message: "Internal Server Error." });
+    res.status(500).send({ message: "Internal Server Error." });
   }
 });

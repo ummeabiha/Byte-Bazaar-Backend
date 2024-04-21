@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     const oldUser = await user_model.findOne({ email });
     if (!oldUser) {
       console.log("Email Not Exists");
-      return res.json({ status: "User Not Exists!!" });
+      return res.json({ status: "User Does Not Exist!!" });
     }
 
     await addOtpToDb({ recipientEmail: email });

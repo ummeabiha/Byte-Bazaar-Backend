@@ -5,6 +5,22 @@ const app = express();
 const cors = require("cors");
 const PORT = 6005;
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+
+const path = require("path");
+app.use(
+  "/uploads/products",
+  express.static(path.join(__dirname, "uploads/products"))
+);
+
 // Importing route handlers
 const signupRoutes = require("./routes/UserPanel/userAuthorization/signup");
 const loginRoutes = require("./routes/UserPanel/userAuthorization/login");
@@ -21,8 +37,8 @@ const addProdsRouter = require("./routes/AdminPanel/inventoryManagement/insertPr
 const editProdsRouter = require("./routes/AdminPanel/inventoryManagement/updateProducts");
 const getProdsRouter = require("./routes/AdminPanel/inventoryManagement/getProducts");
 const deleteProdsRouter = require("./routes/AdminPanel/inventoryManagement/deleteProducts");
-const dispatchOrdersRouter= require("./routes/AdminPanel/orderManagement/dispatchOrders");
-const getOrdersRouter= require("./routes/AdminPanel/orderManagement/getOrders");
+const dispatchOrdersRouter = require("./routes/AdminPanel/orderManagement/dispatchOrders");
+const getOrdersRouter = require("./routes/AdminPanel/orderManagement/getOrders");
 
 // Variables
 const cookieParser = require("cookie-parser");
@@ -107,11 +123,11 @@ app.use("/api/get-prods", getProdsRouter);
 app.use("/api/delete-prods", deleteProdsRouter);
 
 //Order Management Routers for Admin Panel
-app.use("/api/dispatch-orders", dispatchOrdersRouter); 
+app.use("/api/dispatch-orders", dispatchOrdersRouter);
 app.use("/api/get-orders", getOrdersRouter);
 
 // Customer Support for Admin Panel
-app.use("/api/close-concerns", closeCustomerConcerns); 
+app.use("/api/close-concerns", closeCustomerConcerns);
 app.use("/api/get-concerns", getCustomerMessages);
 
 //Logout the user

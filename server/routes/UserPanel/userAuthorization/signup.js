@@ -39,7 +39,7 @@ module.exports = router.post("/", async (req, res) => {
         return res.status(200).send({ message: "User created successfully" });
       } else {
         return res.status(409).send({
-          message: "User with given email already exists and is active",
+          message: "User with given email already exists",
         });
       }
     } else {

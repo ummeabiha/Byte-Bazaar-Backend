@@ -1,34 +1,47 @@
 const express = require("express");
 const router = express.Router();
 const { shop_model } = require("../../../models/UserPanel/shop");
-const { validate } = require("../../../validations/prodValidation");
+const { validate } = require("../../../validations/editProdValidation");
+const fs = require("fs");
+const path = require("path");
+
+// Decoding Base64 data into binary format
+const saveFileFromBase64 = (base64Data, targetPath) => {
+  const fileBuffer = Buffer.from(base64Data, "base64");
+  fs.writeFileSync(targetPath, fileBuffer);
+};
 
 router.put("/", async (req, res) => {
   try {
-    const { _id, name, price, image, category, description, rating, brand } =
-      req.body;
+    const { _id, prodId, ...productData } = req.body;
 
-    // Convert price and rating to numbers
-    const convertedPrice = parseInt(price, 10);
-    const convertedRating = parseFloat(rating);
-
-    const updatedProductData = {
-      name,
-      price: convertedPrice,
-      image,
-      category,
-      description,
-      rating: convertedRating,
-      brand,
-    };
-
-    console.log("Received data:", updatedProductData);
-
-    const { error } = validate(updatedProductData);
-    // Handle errors in input data
+    const { error } = validate(req.body);
     if (error) {
       return res.status(400).send({ message: error.details[0].message });
     }
+
+    const convertedPrice = parseInt(productData.price, 10);
+    const convertedRating = parseFloat(productData.rating);
+
+    let imagePath = "";
+    if (productData.image) {
+      const imageFolderPath = path.join(__dirname, "../../../uploads/products");
+      const imageName = `${prodId}.png`;
+      imagePath = path.join(imageFolderPath, imageName);
+      saveFileFromBase64(productData.image, imagePath);
+    }
+
+    const updatedProductData = {
+      _id: _id,
+      id: prodId,
+      name: productData.name,
+      price: convertedPrice,
+      image: productData.image ? `/uploads/products/${prodId}.png` : null,
+      category: productData.category,
+      brand: productData.brand,
+      rating: convertedRating,
+      description: productData.description,
+    };
 
     const updatedProduct = await shop_model.findByIdAndUpdate(
       _id,
@@ -45,16 +58,7 @@ router.put("/", async (req, res) => {
 
     res.status(200).json(updatedProduct);
   } catch (err) {
-    // Handle validation errors
     console.error("Error updating product:", err);
-
-    // Check for validation errors
-    if (err.name === "ValidationError") {
-      return res
-        .status(400)
-        .json({ message: "Validation Error: Invalid data." });
-    }
-
     res.status(500).json({ message: "Internal Server Error." });
   }
 });
