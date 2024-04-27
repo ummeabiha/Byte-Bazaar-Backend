@@ -36,6 +36,7 @@ const deleteUserRouter = require("./routes/UserPanel/deleteAccount/deleteAccount
 const addProdsRouter = require("./routes/AdminPanel/inventoryManagement/insertProducts");
 const editProdsRouter = require("./routes/AdminPanel/inventoryManagement/updateProducts");
 const getProdsRouter = require("./routes/AdminPanel/inventoryManagement/getProducts");
+const getProdByIdRouter = require("./routes/AdminPanel/inventoryManagement/getProductById");
 const deleteProdsRouter = require("./routes/AdminPanel/inventoryManagement/deleteProducts");
 const dispatchOrdersRouter = require("./routes/AdminPanel/orderManagement/dispatchOrders");
 const getOrdersRouter = require("./routes/AdminPanel/orderManagement/getOrders");
@@ -120,6 +121,7 @@ app.use("/api/delete-users", deleteUserRouter);
 app.use("/api/add-prods", addProdsRouter);
 app.use("/api/edit-prods", editProdsRouter);
 app.use("/api/get-prods", getProdsRouter);
+app.use("/api/get-prod-by-id", getProdByIdRouter);
 app.use("/api/delete-prods", deleteProdsRouter);
 
 //Order Management Routers for Admin Panel
