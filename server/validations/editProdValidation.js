@@ -28,13 +28,15 @@ const validate = (data) => {
     image: Joi.string().required().messages({
       "any.required": "Product Image is required.",
     }),
-    price: Joi.number().required().positive().messages({
+    price: Joi.number().required().positive().precision(2).messages({
       "any.required": "Product Price is required.",
       "number.positive": "Product Price must be a positive number.",
+      "number.precision": "Product Price must have at most 2 decimal places.",
     }),
-    rating: Joi.number().required().positive().messages({
+    rating: Joi.number().required().min(1).max(5).messages({
       "any.required": "Product Rating is required.",
-      "number.positive": "Product Rating must be a positive number.",
+      "number.min": "Product Rating must be at least 1.",
+      "number.max": "Product Rating must not exceed 5.",
     }),
   });
   return schema.validate(data);
