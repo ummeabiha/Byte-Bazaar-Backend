@@ -13,34 +13,56 @@ const saveFileFromBase64 = (base64Data, targetPath) => {
 
 router.put("/", async (req, res) => {
   try {
-    const { _id, prodId, ...productData } = req.body;
+    const {
+      _id,
+      id,
+      price,
+      name,
+      category,
+      brand,
+      rating,
+      description,
+      image,
+    } = req.body;
 
-    const { error } = validate(req.body);
+    const { error } = validate({
+      _id,
+      id,
+      name,
+      description,
+      category,
+      brand,
+      image,
+      price,
+      rating,
+    });
+
     if (error) {
+      console.log(error);
       return res.status(400).send({ message: error.details[0].message });
     }
 
-    const convertedPrice = parseInt(productData.price, 10);
-    const convertedRating = parseFloat(productData.rating);
+    const convertedPrice = parseInt(price, 10);
+    const convertedRating = parseFloat(rating);
 
     let imagePath = "";
-    if (productData.image) {
+    if (image) {
       const imageFolderPath = path.join(__dirname, "../../../uploads/products");
-      const imageName = `${prodId}.png`;
+      const imageName = `${id}.png`;
       imagePath = path.join(imageFolderPath, imageName);
-      saveFileFromBase64(productData.image, imagePath);
+      saveFileFromBase64(image, imagePath);
     }
 
     const updatedProductData = {
-      _id: _id,
-      id: prodId,
-      name: productData.name,
+      _id,
+      id,
+      name,
       price: convertedPrice,
-      image: productData.image ? `/uploads/products/${prodId}.png` : null,
-      category: productData.category,
-      brand: productData.brand,
+      image: image ? `/uploads/products/${id}.png` : null,
+      category,
+      brand,
       rating: convertedRating,
-      description: productData.description,
+      description,
     };
 
     const updatedProduct = await shop_model.findByIdAndUpdate(
@@ -56,7 +78,9 @@ router.put("/", async (req, res) => {
       return res.status(404).json({ message: "Product not found." });
     }
 
-    res.status(200).json(updatedProduct);
+    res
+      .status(200)
+      .json({ message: "Product Edited Successfully.", updatedProduct });
   } catch (err) {
     console.error("Error updating product:", err);
     res.status(500).json({ message: "Internal Server Error." });

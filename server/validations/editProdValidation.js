@@ -5,7 +5,7 @@ const validate = (data) => {
     _id: Joi.string().required().messages({
       "any.required": "_id is required.",
     }),
-    prodId: Joi.number().required().positive().messages({
+    id: Joi.number().required().positive().messages({
       "any.required": "Product Id is required.",
       "number.positive": "Product Id must be a positive number.",
     }),
@@ -25,8 +25,11 @@ const validate = (data) => {
       "string.max": "Product Brand must not exceed 20 characters.",
       "any.required": "Product Brand is required.",
     }),
-    image: Joi.string().required().messages({
-      "any.required": "Product Image is required.",
+    image: Joi.binary().required().encoding("base64").max(31457280).messages({
+      "binary.base": "Image must be a valid image file.",
+      "any.required": "Image is required.",
+      "binary.max": "Image size must not exceed 5MB.",
+      "binary.encoding": "Image must be provided in base64 format.",
     }),
     price: Joi.number().required().positive().precision(2).messages({
       "any.required": "Product Price is required.",
@@ -38,7 +41,7 @@ const validate = (data) => {
       "number.min": "Product Rating must be at least 1.",
       "number.max": "Product Rating must not exceed 5.",
     }),
-  });
+  }).unknown(false);
   return schema.validate(data);
 };
 

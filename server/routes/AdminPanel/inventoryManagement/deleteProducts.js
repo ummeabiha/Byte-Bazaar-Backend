@@ -32,8 +32,9 @@ router.delete("/", async (req, res) => {
       fs.unlinkSync(imagePath);
       console.log(`Deleted image file: ${imagePath}`);
     }
-
-    res.status(200).json({ message: "Product Deleted Successfully." });
+    res
+      .status(200)
+      .json({ message: "Product Deleted Successfully.", deletedProduct });
   } catch (err) {
     console.error("Error deleting product:", err);
     res.status(500).json({ message: "Internal Server Error." });

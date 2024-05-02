@@ -22,8 +22,11 @@ const validate = (data) => {
       "string.max": "Product Brand must not exceed 20 characters.",
       "any.required": "Product Brand is required.",
     }),
-    image: Joi.string().required().messages({
-      "any.required": "Product Image is required.",
+    image: Joi.binary().required().encoding("base64").max(31457280).messages({
+      "binary.base": "Image must be a valid image file.",
+      "any.required": "Image is required.",
+      "binary.max": "Image size must not exceed 5MB.",
+      "binary.encoding": "Image must be provided in base64 format.",
     }),
     price: Joi.number().required().positive().precision(2).messages({
       "any.required": "Product Price is required.",

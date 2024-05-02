@@ -51,7 +51,7 @@ module.exports = router.post("/", async (req, res) => {
     if (err.name === "ValidationError" || err.code === 11000) {
       return res
         .status(400)
-        .send({ message: "Validation Error: Duplicate key or invalid data." });
+        .send({ message: "Invalid data or Product Id already exists." });
     }
 
     res.status(500).send({ message: "Internal Server Error." });
