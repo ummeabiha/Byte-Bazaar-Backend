@@ -21,14 +21,15 @@ const addProdsRouter = require("./routes/AdminPanel/inventoryManagement/insertPr
 const editProdsRouter = require("./routes/AdminPanel/inventoryManagement/updateProducts");
 const getProdsRouter = require("./routes/AdminPanel/inventoryManagement/getProducts");
 const deleteProdsRouter = require("./routes/AdminPanel/inventoryManagement/deleteProducts");
-const dispatchOrdersRouter= require("./routes/AdminPanel/orderManagement/dispatchOrders");
-const getOrdersRouter= require("./routes/AdminPanel/orderManagement/getOrders");
+const dispatchOrdersRouter = require("./routes/AdminPanel/orderManagement/dispatchOrders");
+const getOrdersRouter = require("./routes/AdminPanel/orderManagement/getOrders");
 
 // Variables
 const cookieParser = require("cookie-parser");
 const secretKey = process.env.SECRET_KEY;
 const session = require("express-session");
 const passport = require("passport");
+const order = require("./models/UserPanel/order");
 
 const {
   initializePassport,
@@ -107,11 +108,11 @@ app.use("/api/get-prods", getProdsRouter);
 app.use("/api/delete-prods", deleteProdsRouter);
 
 //Order Management Routers for Admin Panel
-app.use("/api/dispatch-orders", dispatchOrdersRouter); 
+app.use("/api/dispatch-orders", dispatchOrdersRouter);
 app.use("/api/get-orders", getOrdersRouter);
 
 // Customer Support for Admin Panel
-app.use("/api/close-concerns", closeCustomerConcerns); 
+app.use("/api/close-concerns", closeCustomerConcerns);
 app.use("/api/get-concerns", getCustomerMessages);
 
 //Logout the user

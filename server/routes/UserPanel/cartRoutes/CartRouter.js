@@ -57,14 +57,16 @@ const addItem = async (req, res) => {
     }
     await cart.save();
 
-    return res.status(200).send({
+    return res.status(201).send({
       cart: cart.items,
       total: cart.total,
       message: "Item added to cart",
     });
   } catch (err) {
-    console.log("An error occured", err);
-    return res.status(400).send({ message: err });
+    console.log("An error occured. Kindly retry later.", err);
+    return res
+      .status(500)
+      .send({ message: "An error occured. Kindly retry later." });
   }
 };
 
