@@ -18,7 +18,7 @@ module.exports = router.post("/", async (req, res) => {
 
     // if user is not authenticated, then generate an error message
     if (!user || user.isActiveUser == false) {
-      return res.status(401).send({ message: "Invalid Email or Password" });
+      return res.status(401).send({ message: "Invalid Email or Password." });
     }
 
     // if user email is authenticated, then validate the password
@@ -29,13 +29,12 @@ module.exports = router.post("/", async (req, res) => {
 
     // if password is not correct, then generate an error message
     if (!validPassword)
-      return res.status(401).send({ message: "Invalid Email or Password" });
+      return res.status(401).send({ message: "Invalid Email or Password." });
 
     // If email and password are valid, generate JWT token
     const token = user.generateAuthToken();
-    res.status(200).send({ data: token, message: "logged in successfully" });
+    res.status(200).send({ data: token, message: "Log In Successful." });
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error." });
   }
 });
-

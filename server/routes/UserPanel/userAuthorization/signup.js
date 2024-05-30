@@ -15,7 +15,7 @@ module.exports = router.post("/", async (req, res) => {
 
     // Check if the password & confirm password are same
     if (req.body.password !== req.body.confirmPassword) {
-      return res.status(400).send({ message: "Passwords do not match" });
+      return res.status(400).send({ message: "Passwords do not match." });
     }
 
     // Check if the user email already exists in db
@@ -23,7 +23,7 @@ module.exports = router.post("/", async (req, res) => {
     if (user && user.isActiveUser == true)
       return res
         .status(409)
-        .send({ message: "User with given email already exists" });
+        .send({ message: "User with given email already exists." });
 
     // Encrypting the user password using salt (adds a random value to the input string)
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
@@ -36,10 +36,10 @@ module.exports = router.post("/", async (req, res) => {
           { email: req.body.email },
           { $set: { password: hashPassword, isActiveUser: true } }
         );
-        return res.status(200).send({ message: "User created successfully" });
+        return res.status(200).send({ message: "User created successfully." });
       } else {
         return res.status(409).send({
-          message: "User with given email already exists and is active",
+          message: "User with given email already exists.",
         });
       }
     } else {
@@ -49,9 +49,9 @@ module.exports = router.post("/", async (req, res) => {
         password: hashPassword,
         isActiveUser: true,
       }).save();
-      return res.status(201).send({ message: "User created successfully" });
+      return res.status(201).send({ message: "User created successfully." });
     }
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error." });
   }
 });
