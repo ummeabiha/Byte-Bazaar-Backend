@@ -16,10 +16,11 @@ const Order = new mongoose.Schema({
 
   //Details relevant to shipping of the parcel
   shippingDetails: {
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    zipCode: { type: Number },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
     contact: { type: Number, required: true },
+    address: { type: String, required: true },
+    postalCode: { type: Number },
   },
 
   //Payment options:COD or payPal or any other.

@@ -98,7 +98,9 @@ const changeQuantity = async (req, res) => {};
 
 const emptyCart = async (req, res) => {
   try {
-    let cart = Cart.findOneAndDelete({ userId: res.locals.id });
+    let cart = await Cart.findOneAndDelete({ userId: res.locals.id });
+
+    // cart.save();
     return res.status(200).send({ message: "Cart emptied" });
   } catch (err) {
     console.log(err);

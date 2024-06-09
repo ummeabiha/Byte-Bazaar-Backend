@@ -55,6 +55,7 @@ const {
 } = require("./routes/UserPanel/userAuthorization/googleAuth");
 const getCustomerMessages = require("./routes/AdminPanel/customerSupport/getCustomerMessages");
 const closeCustomerConcerns = require("./routes/AdminPanel/customerSupport/closeCustomerConcerns");
+const orderRouter = require("./routes/UserPanel/orderRoutes/OrderRouter");
 
 // Initialize Passport and session
 initializePassport();
@@ -113,6 +114,9 @@ app.use("/api", shopRoutes);
 
 //Cart Routes
 app.use("/cart", cartRouter);
+
+//Order Routes
+app.use("/order", orderRouter);
 
 // Users Management Routers for Admin Panel
 app.use("/api/get-users", getUserRouter);
