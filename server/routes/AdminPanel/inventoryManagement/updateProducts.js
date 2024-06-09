@@ -20,6 +20,7 @@ router.put("/", async (req, res) => {
       name,
       category,
       brand,
+      quantity,
       rating,
       description,
       image,
@@ -32,6 +33,7 @@ router.put("/", async (req, res) => {
       description,
       category,
       brand,
+      quantity,
       image,
       price,
       rating,
@@ -41,6 +43,8 @@ router.put("/", async (req, res) => {
       console.log(error);
       return res.status(400).send({ message: error.details[0].message });
     }
+
+    console.log(quantity);
 
     const convertedPrice = parseInt(price, 10);
     const convertedRating = parseFloat(rating);
@@ -61,6 +65,7 @@ router.put("/", async (req, res) => {
       image: image ? `/uploads/products/${id}.png` : null,
       category,
       brand,
+      quantity,
       rating: convertedRating,
       description,
     };

@@ -14,6 +14,7 @@ const saveFileFromBase64 = (base64Data, targetPath) => {
 module.exports = router.post("/", async (req, res) => {
   try {
     console.log("Adding data to db");
+    console.log(req.body);
 
     const { error } = validate(req.body);
     if (error) {

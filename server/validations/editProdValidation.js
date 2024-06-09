@@ -36,6 +36,10 @@ const validate = (data) => {
       "number.positive": "Product Price must be a positive number.",
       "number.precision": "Product Price must have at most 2 decimal places.",
     }),
+    quantity: Joi.number().required().positive().messages({
+      "any.required": "Quantity is required.",
+      "number.positive": "Quantity must be a positive number.",
+    }),
     rating: Joi.number().required().min(1).max(5).messages({
       "any.required": "Product Rating is required.",
       "number.min": "Product Rating must be at least 1.",
