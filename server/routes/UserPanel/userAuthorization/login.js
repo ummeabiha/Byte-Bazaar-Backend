@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { user_model } = require("../../../models/UserPanel/userInfo");
 const bcrypt = require("bcrypt");
 const { validate } = require("../../../validations/loginValidation");
+const { Cart } = require("../../../models/UserPanel/Cart");
 // const Joi = require("joi"); // library for data validation
 
 module.exports = router.post("/", async (req, res) => {
@@ -33,6 +34,10 @@ module.exports = router.post("/", async (req, res) => {
 
     // If email and password are valid, generate JWT token
     const token = user.generateAuthToken();
+
+    let cart = await Cart.findOneAndDelete({ userId: user._id });
+
+    // cart.save();
     res.status(200).send({ data: token, message: "Log In Successful." });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error." });
