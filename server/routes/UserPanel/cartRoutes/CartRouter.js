@@ -56,9 +56,10 @@ const addItem = async (req, res) => {
       cart.total += quantity * price;
     }
     await cart.save();
+    console.log(cart);
 
     return res.status(201).send({
-      cart: cart.items,
+      cart: cart,
       total: cart.total,
       message: "Item added to cart",
     });
@@ -94,7 +95,44 @@ const removeItem = async (req, res) => {
   }
 };
 
-const changeQuantity = async (req, res) => {};
+const DecrementQuantity = async (req, res) => {
+  try {
+    let { productId, subTotal, updateType } = req.body;
+    let cart = await findCart(res.locals.id);
+    let product = await shop_model.findById({ _id: productId });
+    let itemInCart = await cart.items.find(
+      (item) => item.productId == productId
+    );
+    if (updateType == "decrement") {
+      if (itemInCart.quantity > 1) {
+        itemInCart.quantity -= 1;
+        cart.total -= subTotal;
+      } else {
+        return res
+          .status(400)
+          .send({ message: "Item cannot be decremented further" });
+      }
+    } else {
+      if (itemInCart.quantity + 1 <= product.quantity) {
+        itemInCart.quantity += 1;
+        cart.total += subTotal;
+      } else {
+        return res.status(400).send({ message: "Item Out Of Stock" });
+      }
+    }
+    await cart.save();
+    return res.status(201).send({
+      cart: cart,
+      total: cart.total,
+      message: "Item added to cart",
+    });
+  } catch (err) {
+    console.log("An error occured. Kindly retry later.", err);
+    return res
+      .status(500)
+      .send({ message: "An error occured. Kindly retry later." });
+  }
+};
 
 const emptyCart = async (req, res) => {
   try {
@@ -111,6 +149,7 @@ const emptyCart = async (req, res) => {
 cartRouter.get("/", Authorization, getCart);
 cartRouter.post("/", Authorization, addItem);
 cartRouter.delete("/:productId", Authorization, removeItem);
+cartRouter.put("/", Authorization, DecrementQuantity);
 cartRouter.delete("/", Authorization, emptyCart);
 
 module.exports = cartRouter;
