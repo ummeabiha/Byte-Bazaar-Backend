@@ -56,6 +56,7 @@ const {
 const getCustomerMessages = require("./routes/AdminPanel/customerSupport/getCustomerMessages");
 const closeCustomerConcerns = require("./routes/AdminPanel/customerSupport/closeCustomerConcerns");
 const orderRouter = require("./routes/UserPanel/orderRoutes/OrderRouter");
+const paymentRouter = require("./routes/UserPanel/Payment");
 
 // Initialize Passport and session
 initializePassport();
@@ -136,7 +137,7 @@ app.use("/api/get-orders", getOrdersRouter);
 // Customer Support for Admin Panel
 app.use("/api/close-concerns", closeCustomerConcerns);
 app.use("/api/get-concerns", getCustomerMessages);
-
+app.use("/api/payment", paymentRouter);
 //Logout the user
 app.get("/logout", (req, res, next) => {
   req.logout(function (err) {
