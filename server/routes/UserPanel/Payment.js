@@ -5,10 +5,13 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 const sendClientKey = async (req, res) => {
   let { OrderTotal } = req.body;
+  let amount=parseInt(OrderTotal)*10
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: OrderTotal*100, //To convert to rupees from paisas
+      amount:amount, //To convert to rupees from paisas
       currency: "pkr",
+      payment_method_types: ['card'],
+      automatic_payment_methods: { enabled: false },
     });
 
     res.send({

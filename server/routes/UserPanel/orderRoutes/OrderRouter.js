@@ -50,7 +50,13 @@ const processOrder = async (req, res) => {
       });
 
       await newOrderEntry.save();
-      return res.status(201).send({ message: "Order successfully placed" });
+      try {
+        let cart = await Cart.findOneAndDelete({ userId: res.locals.id });
+        return res.status(200).send({ message: "Success" });
+      } catch (err) {
+        console.log(err);
+        return res.status(400).send({ message: err });
+      }
     }
   } catch (Err) {
     console.log(Err);
