@@ -34,6 +34,9 @@ passport.use(
           await user.save(); // Save the new user to the database
         }
 
+        // const token = user.generateAuthToken();
+        // console.log(`Generated Token: ${token}`);
+
         return done(null, user); // Return the user information
       } catch (error) {
         return done(error, null); // Return error if encountered
@@ -64,10 +67,27 @@ module.exports = {
   },
 
   handleGoogleCallback: () => {
-    // Handle Google OAuth2 callback
-    return passport.authenticate("google", {
-      successRedirect: "http://localhost:5173/", // Redirect on successful authentication
-      failureRedirect: "http://localhost:5173/bytebazaar/login", // Redirect on authentication failure
-    });
+    return async (req, res, next) => {
+      passport.authenticate("google", async (err, user) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.redirect("http://localhost:5173/bytebazaar/login"); // Redirect on authentication failure
+        }
+
+        try {
+          const token = user.generateAuthToken();
+          res.cookie("authToken", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "Strict",
+          });
+          return res.redirect("http://localhost:5173/"); // Redirect to frontend on successful login
+        } catch (error) {
+          return next(error);
+        }
+      })(req, res, next);
+    };
   },
 };

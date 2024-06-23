@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 //to store user's google id data in database
 const googleUser = new mongoose.Schema(
@@ -7,10 +8,18 @@ const googleUser = new mongoose.Schema(
     name: String,
     email: String,
     image: String,
-  }, { collection: "googleUser" }, // to specify the mongoose collection
+  },
+  { collection: "googleUser" }, // to specify the mongoose collection
   { timestamps: true }
 );
 
-const google_user_model = new mongoose.model("googleUser", googleUser);
+// generating a unique auth token for each user
+googleUser.methods.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
+    expiresIn: "7d",
+  });
+  return token;
+};
 
+const google_user_model = new mongoose.model("googleUser", googleUser);
 module.exports = google_user_model;
