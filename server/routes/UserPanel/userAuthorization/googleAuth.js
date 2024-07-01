@@ -79,11 +79,12 @@ module.exports = {
         try {
           const token = user.generateAuthToken();
           res.cookie("authToken", token, {
-            httpOnly: true,
             secure: false,
-            sameSite: "Strict",
+            // sameSite: "Strict",
           });
-          return res.redirect("http://localhost:5173/"); // Redirect to frontend on successful login
+
+          // return res.status(200).send({ token: token });
+          return res.redirect("http://localhost:5173/bytebazaar/"); // Redirect to frontend on successful login
         } catch (error) {
           return next(error);
         }
