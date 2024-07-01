@@ -17,6 +17,10 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const Contact = mongoose.model("Contact", contactSchema);
