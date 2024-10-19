@@ -19,6 +19,7 @@
     "express-session": "^1.18.0",
     "fastify": "^4.28.0",
     "fs": "^0.0.1-security",
+    "ioredis": "^5.4.1",
     "joi": "^17.12.2",
     "joi-password-complexity": "^5.2.0",
     "jsonwebtoken": "^9.0.2",

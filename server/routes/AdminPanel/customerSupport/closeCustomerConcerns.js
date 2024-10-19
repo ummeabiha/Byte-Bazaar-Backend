@@ -9,9 +9,19 @@ module.exports = router.put("/", async (req, res) => {
     const updatedStatus = await support_model.findOneAndUpdate(
       { _id: _id },
       { $set: { status: false } },
-      { new: true } // Return the updated document
+      { new: true } 
     );
 
+    const updateStatusById = async (model, id, status) => {
+        const updatedDocument = await model.findOneAndUpdate(
+          { _id: id },
+          { $set: { status: status } },
+          { new: true }
+        );
+        return updatedDocument;
+    };
+
+    
     // Check if the user was found and updated
     if (!updatedStatus) {
       return res.status(404).send({ message: "No Message Found" });

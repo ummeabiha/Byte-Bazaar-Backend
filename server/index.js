@@ -59,6 +59,8 @@ const orderRouter = require("./routes/UserPanel/orderRoutes/OrderRouter");
 const paymentRouter = require("./routes/UserPanel/Payment");
 const contactRouter = require("./routes/UserPanel/contact/contactRoute");
 
+const { initRedis } = require("./redis-config/redis-client");
+initRedis();
 // Initialize Passport and session
 initializePassport();
 
