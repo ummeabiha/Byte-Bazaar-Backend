@@ -6,16 +6,17 @@ const CACHE_EXPIRATION = 3600 * 24;
 
 router.get("/", async (req, res) => {
   try {
-    const cachedProds = await redisClient.get("shop_products"); 
+    const cachedProds = await redisClient.get("shop_products");
     if (cachedProds) {
-      res.setHeader("Cache-Control", "public, max-age=3600"); 
+      // Http Header Caching (Client Side)
+      res.setHeader("Cache-Control", "public, max-age=20");
       return res.status(200).send({
-        data: JSON.parse(cachedProds), 
+        data: JSON.parse(cachedProds),
         message: "Products fetched from cache",
       });
     }
 
-    const prods = await shop_model.find(); 
+    const prods = await shop_model.find();
     if (!prods || prods.length === 0) {
       return res.status(404).send({ message: "No Products Found" });
     }
@@ -28,8 +29,9 @@ router.get("/", async (req, res) => {
       CACHE_EXPIRATION
     );
 
-    // Set HTTP caching headers for the response from the database
-    res.setHeader("Cache-Control", "public, max-age=3600"); // Cache for 1 hour
+    //Set HTTP caching headers for the response from the database
+    res.setHeader("Cache-Control", "public, max-age=20"); // Cache for 20 secs
+
     res
       .status(200)
       .send({ data: prods, message: "Products fetched Successfully" });

@@ -48,11 +48,6 @@ const session = require("express-session");
 const passport = require("passport");
 const order = require("./models/UserPanel/order");
 
-const {
-  initializePassport,
-  authenticateGoogle,
-  handleGoogleCallback,
-} = require("./routes/UserPanel/userAuthorization/googleAuth");
 const getCustomerMessages = require("./routes/AdminPanel/customerSupport/getCustomerMessages");
 const closeCustomerConcerns = require("./routes/AdminPanel/customerSupport/closeCustomerConcerns");
 const orderRouter = require("./routes/UserPanel/orderRoutes/OrderRouter");
@@ -61,8 +56,6 @@ const contactRouter = require("./routes/UserPanel/contact/contactRoute");
 
 const { initRedis } = require("./redis-config/redis-client");
 initRedis();
-// Initialize Passport and session
-initializePassport();
 
 // middleware
 app.use(express.json());
@@ -89,8 +82,27 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Google O-Auth
+const {
+  initializePassport,
+  authenticateGoogle,
+  handleGoogleCallback,
+} = require("./routes/UserPanel/userAuthorization/googleAuth");
+// Initialize Passport and session
+initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+// Google Login
+app.get("/auth/google", authenticateGoogle());
+app.get("/auth/google/callback", handleGoogleCallback());
+app.get("/login/success", async (req, res) => {
+  if (req.user) {
+    res.status(200).json({ message: "user Login", user: req.user });
+  } else {
+    res.status(400).json({ message: "Not Authorized" });
+  }
+});
 
 // Routes
 // General Login and Signup
@@ -102,16 +114,6 @@ app.use("/api/resetPassword", resetPasswordRoutes);
 app.use("/api/user-otp-verification", verifyOtpRouter);
 app.use("/api/resend-otp", resendOtpRouter);
 
-// Google Login
-app.get("/auth/google", authenticateGoogle());
-app.get("/auth/google/callback", handleGoogleCallback());
-app.get("/login/success", async (req, res) => {
-  if (req.user) {
-    res.status(200).json({ message: "user Login", user: req.user });
-  } else {
-    res.status(400).json({ message: "Not Authorized" });
-  }
-});
 
 //Shop Route
 app.use("/api", shopRoutes);
